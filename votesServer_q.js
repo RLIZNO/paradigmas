@@ -135,13 +135,13 @@ function serveHello(req, res){
 };
 
 var the_votes = {
-	heredia:{nombre:"heredia",voters: 70000, parties:{pln:0, pac:0, plib:0}},
-	sanjose:{nombre: "sanjose", voters: 200000, parties:{pln:0, pac:0, plib:0}},
-	alajuela:{nombre:"alajuela",voters: 80000, parties:{pln:0, pac:0, plib:0}},
-	cartago:{nombre:"cartago", voters: 50000, parties:{pln:0, pac:0, plib:0}},
-	puntarenas:{nombre:"puntarenas", voters:100000, parties:{pln:0, pac:0, plib:0}},
-	limon:{nombre: "limon", voters: 60000, parties:{pln:0, pac:0, plib:0}},
-	guanacaste: {nombre:"guanacaste", voters:90000, parties:{pln:0, pac:0, plib:0}}
+	heredia:{nombre:"heredia",voters: 70000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	sanjose:{nombre: "sanjose", voters: 200000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	alajuela:{nombre:"alajuela",voters: 80000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	cartago:{nombre:"cartago", voters: 50000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	puntarenas:{nombre:"puntarenas", voters:100000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	limon:{nombre: "limon", voters: 60000, parties:{pln:0, pac:0, plib:0, rc:0}},
+	guanacaste: {nombre:"guanacaste", voters:90000, parties:{pln:0, pac:0, plib:0, rc:0}}
 	
 };
 
@@ -153,13 +153,13 @@ function obtainVotes(dto, f, h){
 	 }
 	 var err = Math.random()*100;
 	 
-	 if ( err  >= 99.5 ) h();
+	 if ( err  >= 100 ) h();
 
      for(var place in the_votes){
 		 var prov = the_votes[place];
 		 if (prov.voters == 0) continue;
 		 for(var p in prov.parties){
-			 var prob = Math.random();
+			 var prob = Math.random()*0.3;
 			 var v = Math.round(prov.voters*prob);
 			 if (v > prov.voters) v = prov.voters;
 			 console.log("province="+place + " party=" + p + " votes(before)=" + prov.parties[p] + " votes="+v);
