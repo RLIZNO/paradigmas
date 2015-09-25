@@ -44,11 +44,8 @@ var json="";
 
 }
 
-function requestVotesFromServer(e){
-	//console.log('En serverRequest'+e);
-	  
+function requestVotesFromServer(e){	  
 	 var req = getJson('/votes');
-
 	 console.log('serverRequest after');
 	 console.log('request'+req);
 	 return Q(req); // CONVIERTE LA PROMESA DE JQUERY A Q
@@ -60,7 +57,7 @@ function requestVotesFromServer(e){
 	var votes = $.map(votes.votes, function(index){return index});
 	console.log('status'+modelo.status);
 	if(modelo.status==0){
-		$.each(votes, function(index) { 
+		$.each(votes, function(index) {
 		modelo.totales.push(votes[index].voters);
 	});
 		modelo.status=1;
@@ -71,30 +68,34 @@ function requestVotesFromServer(e){
 	modelo.datos= votes;
 	d.resolve(modelo);
 	return d.promise;
-
-
-
-
  }
 
 
 
 function updateTable(modelo){
-console.log('----------------------------------------------------------------------------------');
-console.log('totales');
-console.log(modelo.totales);
-
-console.log('datos');
-console.log(modelo.datos);
-
-
-console.log('----------------------------------------------------------------------------------');
-	
+	var mitabla= $("#elections");
+	table_clear();
+		var datas = modelo.datos;
+		var totales = 0;
+		$.each(datas, function(index) {  
+        var $linea = $('<tr></tr>');
+        $linea.append( $('<td></td>').html(datas[index].nombre));
+        $.each(datas[index].parties,function(index2,data){
+        	$linea.append( $('<td></td>').html(data)); 
+        	$linea.append( $('<td></td>').html(((data*100)/modelo.totales[index]).toFixed(4)));	
+        	totales += data;
+        });
+        $linea.append( $('<td></td>').html(totales));
+        $linea.append( $('<td></td>').html(((totales*100)/modelo.totales[index]).toFixed(2)));
+        $linea.append( $('<progress class="prog" value="'+totales+'" max="'+modelo.totales[index]+'"></progress>'));
+        mitabla.append($linea);
+        totales=0;
+    });	
 };
 var timer;
 function startPolling(e){
 
- timer = setInterval(function(){votesWorkFlow();}, 1000);
+ timer = setInterval(function(){votesWorkFlow();}, 5000);
  	
 };
 
